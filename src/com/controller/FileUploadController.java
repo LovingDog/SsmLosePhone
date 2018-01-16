@@ -13,12 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.FileUploadBase;
+import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.parsing.ReaderContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -94,6 +98,28 @@ public class FileUploadController {
 	 } catch (Exception e) {
 		 return "Exception";
 	 }
+	 return "adbbddsfsdfsdfsdf";
+	}
+	
+	
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadFiles(@RequestParam("file") MultipartFile[] file,HttpServletRequest request) {
+		for (MultipartFile multipartFile : file) {
+			 try {
+				  String filename = multipartFile.getOriginalFilename();
+				  if (filename.endsWith("jpg") || filename.endsWith("png") || filename.endsWith("gif")) {
+				   String prefix = filename.substring(filename.lastIndexOf("."));
+				   return uploadFile1(multipartFile,request);
+//				   String imgUri = writeToFileSystem(imgName, file.getBytes(),file);
+//				   uploadFile1(file);
+//				   return "123123123123";
+				  }
+				 } catch (Exception e) {
+					 return "Exception";
+				 }
+		}
+//	
 	 return "adbbddsfsdfsdfsdf";
 	}
 
